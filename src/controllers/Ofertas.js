@@ -1,11 +1,11 @@
 const db = require('../dataBase/connection'); 
 
 module.exports = {
-    async listarAgricultores(request, response) {
+    async listarOfertas(request, response) {
         try {
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Lista de Agricultores', 
+                mensagem: 'Lista de Ofertas', 
                 dados: null
             });
         } catch (error) {
@@ -16,11 +16,11 @@ module.exports = {
             });
         }
     }, 
-    async cadastrarAgricultores(request, response) {
+    async cadastrarOfertas(request, response) {
         try {
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Cadastro de Agricultores', 
+                mensagem: 'Cadastro de Ofertas', 
                 dados: null
             });
         } catch (error) {
@@ -31,11 +31,11 @@ module.exports = {
             });
         }
     }, 
-    async editarAgricultores(request, response) {
+    async editarOfertas(request, response) {
         try {
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Alteração no cadastro de Agricultores', 
+                mensagem: 'Alteração no cadastro de Ofertas', 
                 dados: null
             });
         } catch (error) {
@@ -46,11 +46,11 @@ module.exports = {
             });
         }
     }, 
-    async apagarAgricultores(request, response) {
+    async apagarOfertas(request, response) {
         try {
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Exclusão de Agricultores', 
+                mensagem: 'Exclusão de Ofertas', 
                 dados: null
             });
         } catch (error) {
