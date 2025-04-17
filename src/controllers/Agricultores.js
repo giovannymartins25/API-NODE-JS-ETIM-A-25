@@ -3,10 +3,24 @@ const db = require('../dataBase/connection');
 module.exports = {
     async listarAgricultores(request, response) {
         try {
+
+                const sql = `
+                   SELECT
+                    agri_id, agri_localizacao_propriedade, 
+                    agri_tipos_amendoim_cultivados, 
+                    agri_certificacoes, agri_outras_informacoes
+                  FROM AGRICULTORES;
+                `;
+
+                const [rows] = await db.query(sql);
+
+                const nRegistros = rows.length;
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Lista de Agricultores', 
-                dados: null
+                nRegistros,
+                dados: rows
             });
         } catch (error) {
             return response.status(500).json({
