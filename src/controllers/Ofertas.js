@@ -3,10 +3,23 @@ const db = require('../dataBase/connection');
 module.exports = {
     async listarOfertas(request, response) {
         try {
+
+         
+            const sql = `
+           SELECT oferta_id, agri_id, amen_id, oferta_quantidade, 
+           oferta_preco, oferta_data_colheita, oferta_outras_informacoes, 
+           oferta_data_publicacao, oferta_ativa FROM OFERTAS;
+         `;
+
+         const [rows] = await db.query(sql);
+
+         const nRegistros = rows.length;
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Lista de Ofertas', 
-                dados: null
+                nRegistros,
+                dados: rows
             });
         } catch (error) {
             return response.status(500).json({
