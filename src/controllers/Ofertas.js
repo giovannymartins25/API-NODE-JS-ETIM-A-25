@@ -31,10 +31,39 @@ module.exports = {
     }, 
     async cadastrarOfertas(request, response) {
         try {
+
+        
+            const { agri_id, amen_id, oferta_quantidade, oferta_preco, oferta_data_colheita, oferta_outras_informacoes, oferta_data_publicacao, oferta_ativa } = request.body;
+            
+            // Instrução SQL
+            const sql = `
+             INSERT INTO OFERTAS (agri_id, amen_id, 
+             oferta_quantidade, oferta_preco, oferta_data_colheita, 
+             oferta_outras_informacoes, oferta_data_publicacao, oferta_ativa) 
+             VALUES
+                        (?, ?, ?, ?, ?, ?, ?, ?)
+                    `;
+
+                    const values = [agri_id, amen_id, oferta_quantidade, oferta_preco, oferta_data_colheita, oferta_outras_informacoes, oferta_data_publicacao, oferta_ativa];
+
+                    const [result] = await db.query(sql, values);
+
+                    const dados = {
+                    inf_id: result.insertId,
+                    agri_id,
+                    amen_id,
+                    oferta_quantidade, 
+                    oferta_preco, 
+                    oferta_data_colheita,
+                    oferta_outras_informacoes, 
+                    oferta_data_publicacao, 
+                    oferta_ativa
+                    };
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Cadastro de Ofertas', 
-                dados: null
+                dados: dados
             });
         } catch (error) {
             return response.status(500).json({

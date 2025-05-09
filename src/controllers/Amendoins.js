@@ -30,10 +30,35 @@ module.exports = {
     }, 
     async cadastrarAmendoins(request, response) {
         try {
+
+            const { amen_variedade, amen_tamanho, amen_outras_caracteristicas } = request.body;
+            
+            // Instrução SQL
+            const sql = `
+              INSERT INTO AMENDOINS (amen_variedade, 
+              amen_tamanho, 
+              amen_outras_caracteristicas) 
+              VALUES
+                        (?, ?, ?)
+                    `;
+
+                    const values = [amen_variedade, amen_tamanho, amen_outras_caracteristicas];
+
+                    const [result] = await db.query(sql, values);
+
+                    const dados = {
+                        inf_id: result.insertId,
+                        amen_variedade, 
+                        amen_tamanho,
+                         amen_outras_caracteristicas
+                    };
+
+
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Cadastro de Amendoins', 
-                dados: null
+                dados: dados
             });
         } catch (error) {
             return response.status(500).json({

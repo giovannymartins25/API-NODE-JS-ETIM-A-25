@@ -32,10 +32,35 @@ module.exports = {
     }, 
     async cadastrarAgricultores(request, response) {
         try {
+
+            const { agri_localizacao_propriedade, agri_tipos_amendoim_cultivados, agri_certificacoes, agri_outras_informacoes } = request.body;
+            
+            // Instrução SQL
+            const sql = `
+               INSERT INTO AGRICULTORES (agri_localizacao_propriedade, 
+               agri_tipos_amendoim_cultivados, 
+               agri_certificacoes, agri_outras_informacoes)
+                VALUES
+                        (?, ?, ?, ?)
+                    `;
+
+                    const values = [agri_localizacao_propriedade, agri_tipos_amendoim_cultivados, agri_certificacoes, agri_outras_informacoes];
+
+                    const [result] = await db.query(sql, values);
+
+                    const dados = {
+                        inf_id: result.insertId,
+                        agri_localizacao_propriedade, 
+                        agri_tipos_amendoim_cultivados, 
+                        agri_certificacoes, 
+                        agri_outras_informacoes
+                    };
+
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Cadastro de Agricultores', 
-                dados: null
+                dados: dados
             });
         } catch (error) {
             return response.status(500).json({
