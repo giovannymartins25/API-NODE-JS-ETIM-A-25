@@ -8,17 +8,17 @@ const OfertasController = require('../controllers/Ofertas');
 
 router.get('/Agricultores', AgricultoresController.listarAgricultores); 
 router.post('/Agricultores', AgricultoresController.cadastrarAgricultores); 
-router.patch('/Agricultores', AgricultoresController.editarAgricultores); 
+router.patch('/Agricultores/:id', AgricultoresController.editarAgricultores); 
 router.delete('/Agricultores', AgricultoresController.apagarAgricultores); 
 
 router.get('/Amendoins', AmendoinsController.listarAmendoins); 
 router.post('/Amendoins', AmendoinsController.cadastrarAmendoins); 
-router.patch('/Amendoins', AmendoinsController.editarAmendoins); 
+router.patch('/Amendoins/:id', AmendoinsController.editarAmendoins); 
 router.delete('/Amendoins', AmendoinsController.apagarAmendoins); 
 
 router.get('/Ofertas', OfertasController.listarOfertas); 
 router.post('/Ofertas', OfertasController.cadastrarOfertas); 
-router.patch('/Ofertas', OfertasController.editarOfertas); 
+router.patch('/Ofertas/:id', OfertasController.editarOfertas); 
 router.delete('/Ofertas', OfertasController.apagarOfertas); 
 
 

@@ -72,10 +72,42 @@ module.exports = {
     }, 
     async editarAgricultores(request, response) {
         try {
+
+            const { agri_localizacao_propriedade, agri_tipos_amendoim_cultivados, agri_certificacoes, agri_outras_informacoes } = request.body;
+
+            const { id } = request.params;
+
+            const sql = `
+                UPDATE AGRICULTORES SET
+                    agri_localizacao_propriedade = ?, agri_tipos_amendoim_cultivados = ?, agri_certificacoes = ?, agri_outras_informacoes = ?
+                WHERE
+                    agri_id = ?;
+            `;
+
+            const values = [ agri_localizacao_propriedade, agri_tipos_amendoim_cultivados, agri_certificacoes, agri_outras_informacoes, id ];
+
+            const [result] = await db.query(sql, values);
+
+            if(result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Usuário ${id} não encontrado!`,
+                    dados: null
+                })
+            }
+
+            const dados = {
+                id,
+                agri_localizacao_propriedade,
+                agri_tipos_amendoim_cultivados,
+                agri_certificacoes,
+                agri_outras_informacoes
+            };
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Alteração no cadastro de Agricultores', 
-                dados: null
+                mensagem: `Usuário ${id} atualizado com sucesso!`, 
+                dados
             });
         } catch (error) {
             return response.status(500).json({
@@ -83,6 +115,7 @@ module.exports = {
                 mensagem: 'Erro na requisição.', 
                 dados: error.message
             });
+
         }
     }, 
     async apagarAgricultores(request, response) {

@@ -75,10 +75,41 @@ module.exports = {
     }, 
     async editarOfertas(request, response) {
         try {
+
+            const { agri_id, amen_id, oferta_quantidade, oferta_preco, oferta_data_colheita, oferta_outras_informacoes, oferta_data_publicacao, oferta_ativa } = request.body;
+
+            const { id } = request.params;
+
+            const sql = `
+                UPDATE AMENDOINS SET
+                   agri_id, amen_id, oferta_quantidade, oferta_preco, oferta_data_colheita, oferta_outras_informacoes, oferta_data_publicacao, oferta_ativa
+                WHERE
+                    amen_id = ?;
+            `;
+
+            const values = [ agri_id, amen_id, oferta_quantidade, oferta_preco, oferta_data_colheita, oferta_outras_informacoes, oferta_data_publicacao, oferta_ativa, id ];
+
+            const [result] = await db.query(sql, values);
+
+            if(result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Usuário ${id} não encontrado!`,
+                    dados: null
+                })
+            }
+
+            const dados = {
+                id,
+                amen_variedade, 
+                amen_tamanho,
+                 amen_outras_caracteristicas
+            };
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Alteração no cadastro de Ofertas', 
-                dados: null
+                mensagem: `Usuário ${id} atualizado com sucesso!`, 
+                dados
             });
         } catch (error) {
             return response.status(500).json({
@@ -86,6 +117,7 @@ module.exports = {
                 mensagem: 'Erro na requisição.', 
                 dados: error.message
             });
+
         }
     }, 
     async apagarOfertas(request, response) {

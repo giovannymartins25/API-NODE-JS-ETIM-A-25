@@ -70,10 +70,41 @@ module.exports = {
     }, 
     async editarAmendoins(request, response) {
         try {
+
+            const { amen_variedade, amen_tamanho, amen_outras_caracteristicas } = request.body;
+
+            const { id } = request.params;
+
+            const sql = `
+                UPDATE AMENDOINS SET
+                    amen_variedade = ?, amen_tamanho = ?, amen_outras_caracteristicas = ?
+                WHERE
+                    amen_id = ?;
+            `;
+
+            const values = [ amen_variedade, amen_tamanho, amen_outras_caracteristicas, id ];
+
+            const [result] = await db.query(sql, values);
+
+            if(result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Usuário ${id} não encontrado!`,
+                    dados: null
+                })
+            }
+
+            const dados = {
+                id,
+                amen_variedade, 
+                amen_tamanho,
+                 amen_outras_caracteristicas
+            };
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Alteração no cadastro de Amendoins', 
-                dados: null
+                mensagem: `Usuário ${id} atualizado com sucesso!`, 
+                dados
             });
         } catch (error) {
             return response.status(500).json({
@@ -81,6 +112,7 @@ module.exports = {
                 mensagem: 'Erro na requisição.', 
                 dados: error.message
             });
+
         }
     }, 
     async apagarAmendoins(request, response) {
