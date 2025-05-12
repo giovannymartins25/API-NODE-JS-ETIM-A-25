@@ -81,10 +81,10 @@ module.exports = {
             const { id } = request.params;
 
             const sql = `
-                UPDATE AMENDOINS SET
-                   agri_id, amen_id, oferta_quantidade, oferta_preco, oferta_data_colheita, oferta_outras_informacoes, oferta_data_publicacao, oferta_ativa
+                UPDATE OFERTAS SET
+                   agri_id = ?, amen_id = ?, oferta_quantidade = ?, oferta_preco = ?, oferta_data_colheita = ?, oferta_outras_informacoes = ?, oferta_data_publicacao = ?, oferta_ativa = ?
                 WHERE
-                    amen_id = ?;
+                    oferta_id = ?;
             `;
 
             const values = [ agri_id, amen_id, oferta_quantidade, oferta_preco, oferta_data_colheita, oferta_outras_informacoes, oferta_data_publicacao, oferta_ativa, id ];
@@ -100,10 +100,15 @@ module.exports = {
             }
 
             const dados = {
-                id,
-                amen_variedade, 
-                amen_tamanho,
-                 amen_outras_caracteristicas
+              id,
+              agri_id,
+              amen_id, 
+              oferta_quantidade,
+              oferta_preco, 
+              oferta_data_colheita, 
+              oferta_outras_informacoes,
+              oferta_data_publicacao,
+              oferta_ativa
             };
 
             return response.status(200).json({
