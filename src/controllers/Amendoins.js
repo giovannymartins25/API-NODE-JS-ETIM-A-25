@@ -117,9 +117,26 @@ module.exports = {
     }, 
     async apagarAmendoins(request, response) {
         try {
+
+            const { id } = request.params;
+
+            const sql = `DELETE FROM AMENDOINS WHERE amen_id = ?`;
+
+            const values = [id];
+
+            const [result] = await db.query(sql, values);
+
+            if(result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Amendoim ${amen_id} não encontrado!`,
+                    dados: null
+                })
+            }
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Exclusão de Amendoins', 
+                mensagem: `Amendoim ${id} excluído com sucesso`, 
                 dados: null
             });
         } catch (error) {

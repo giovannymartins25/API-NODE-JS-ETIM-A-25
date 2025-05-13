@@ -120,9 +120,26 @@ module.exports = {
     }, 
     async apagarAgricultores(request, response) {
         try {
+
+            const { id } = request.params;
+
+            const sql = `DELETE FROM AGRICULTORES WHERE agri_id = ?`;
+
+            const values = [id];
+
+            const [result] = await db.query(sql, values);
+
+            if(result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Agricultor ${agri_id} não encontrado!`,
+                    dados: null
+                })
+            }
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Exclusão de Agricultores', 
+                mensagem: `Agricultor ${id} excluído com sucesso`, 
                 dados: null
             });
         } catch (error) {

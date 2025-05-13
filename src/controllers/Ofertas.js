@@ -127,9 +127,26 @@ module.exports = {
     }, 
     async apagarOfertas(request, response) {
         try {
+ 
+            const { id } = request.params;
+
+            const sql = `DELETE FROM OFERTAS WHERE oferta_id = ?`;
+
+            const values = [id];
+
+            const [result] = await db.query(sql, values);
+
+            if(result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucesso: false,
+                    mensagem: `Oferta ${oferta_id} não encontrada!`,
+                    dados: null
+                })
+            }
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Exclusão de Ofertas', 
+                mensagem: `Oferta ${id} excluída com sucesso`, 
                 dados: null
             });
         } catch (error) {
@@ -139,5 +156,6 @@ module.exports = {
                 dados: error.message
             });
         }
+
     }, 
 };  
