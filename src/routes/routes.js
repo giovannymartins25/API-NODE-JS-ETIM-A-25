@@ -1,7 +1,7 @@
 const express = require('express'); 
 const router = express.Router(); 
 
-const RotasGiovanny = require ('/.routesGiovanny');
+const RotasGiovanny = require('./routesGiovanny');
 
 router.use('/', RotasGiovanny);
 
